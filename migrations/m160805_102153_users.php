@@ -12,9 +12,13 @@ class m160805_102153_users extends Migration
             'role_id' => $this->integer(),
             'name' => $this->string()->notNull(),
             'email' => $this->string()->notNull(),
-            'password' => $this->string(32)->notNull(),
-            'auth_key' => $this->string(32)->notNull(),
-            'access_token' => $this->string(32)->notNull(),
+            'email_confirm' => "enum('0','1') NOT NULL DEFAULT '0'",
+            'confirm_code' => $this->string(),
+            'password' => $this->string(40)->notNull(),
+//            'access_token' => $this->string(32)->notNull(),
+            'auth_key' => $this->string(32),
+
+
 
         ]);
 

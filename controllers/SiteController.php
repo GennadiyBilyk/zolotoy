@@ -2,56 +2,20 @@
 
 namespace app\controllers;
 
+use app\models\Letter;
+use app\models\Signup;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\User;
+
 
 class SiteController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
 
-    /**
-     * @inheritdoc
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }
 
     /**
      * Displays homepage.
@@ -60,8 +24,29 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+
         return $this->render('index');
     }
+
+
+    public function actionSignup()
+    {
+
+        $model = new Signup();
+
+        if (Yii::$app->request->method === 'POST') {
+            $model->attributes = Yii::$app->request->post('Signup');
+            if ($model->validate()) {
+                $model->signup();
+                return $this->goHome();
+            }
+        }
+
+
+        return $this->render('signup', ['model' => $model]);
+
+    }
+
 
     /**
      * Login action.
@@ -83,6 +68,7 @@ class SiteController extends Controller
         ]);
     }
 
+
     /**
      * Logout action.
      *
@@ -95,31 +81,92 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
 
-            return $this->refresh();
+    public function actionLetters()
+    {
+        $letters = Letter::find()->orderBy('created_at desc')->all();
+        return $this->render('letters', ['letters' => $letters]);
+    }
+
+
+    public function actionConfirm($code)
+    {
+
+        if(User::confirm($code)){
+            echo 'ваша почта подтверждена';
         }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
+
     }
 
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
+//    /**
+//     * @inheritdoc
+//     */
+//    public function behaviors()
+//    {
+//        return [
+//            'access' => [
+//                'class' => AccessControl::className(),
+//                'only' => ['logout'],
+//                'rules' => [
+//                    [
+//                        'actions' => ['logout'],
+//                        'allow' => true,
+//                        'roles' => ['@'],
+//                    ],
+//                ],
+//            ],
+//            'verbs' => [
+//                'class' => VerbFilter::className(),
+//                'actions' => [
+//                    'logout' => ['post'],
+//                ],
+//            ],
+//        ];
+//    }
+//
+//    /**
+//     * @inheritdoc
+//     */
+//    public function actions()
+//    {
+//        return [
+//            'error' => [
+//                'class' => 'yii\web\ErrorAction',
+//            ],
+//            'captcha' => [
+//                'class' => 'yii\captcha\CaptchaAction',
+//                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+//            ],
+//        ];
+//    }
+
+
+//
+//    /**
+//     * Displays contact page.
+//     *
+//     * @return string
+//     */
+//    public function actionContact()
+//    {
+//        $model = new ContactForm();
+//        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+//            Yii::$app->session->setFlash('contactFormSubmitted');
+//
+//            return $this->refresh();
+//        }
+//        return $this->render('contact', [
+//            'model' => $model,
+//        ]);
+//    }
+//
+//    /**
+//     * Displays about page.
+//     *
+//     * @return string
+//     */
+//    public function actionAbout()
+//    {
+//        return $this->render('about');
+//    }
 }
