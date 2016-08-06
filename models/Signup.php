@@ -19,6 +19,7 @@ class Signup extends Model
 
     private $confirm_code;
 
+    public $captcha;
     public $email;
     public $password;
     public $name;
@@ -35,14 +36,16 @@ class Signup extends Model
             [['email', 'password', 'name'], 'required'],
             ['email', 'email'],
             ['email', 'unique', 'targetClass' => 'app\models\User'],
-            ['password', 'string', 'min' => 2, 'max' => 10]
+            ['password', 'string', 'min' => 2, 'max' => 10],
+            ['captcha', 'required'],
+            ['captcha', 'captcha'],
         ];
     }
 
 
     private function makeLetter()
     {
-        $link =  Yii::$app->request->hostInfo . '/site/confirm?code=' . $this->confirm_code;
+        $link = Yii::$app->request->hostInfo . '/site/confirm?code=' . $this->confirm_code;
         $letter = 'Для подтверждения почтового ящика перейдите по ссылке <a href="' . $link . '" target="_blank">http://' . $link . '</a>';
         return $letter;
     }
@@ -58,6 +61,15 @@ class Signup extends Model
         $email = $this->email;
         $confirm->send($email, $text);
 
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'name' => 'Имя',
+            'email' => 'Email',
+            'password'=>'Пароль',
+            'captcha' => 'Введите текст с картинки'];
     }
 
 

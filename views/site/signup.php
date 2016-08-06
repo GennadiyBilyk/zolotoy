@@ -17,6 +17,7 @@ $form = ActiveForm::begin(['class'=>'form-horizontal']);
 <?php echo $form->field($model,'email')->textInput(); ?>
 <?php echo $form->field($model,'password')->passwordINput(); ?>
 
+<?= $form->field($model, 'captcha')->widget(\yii\captcha\Captcha::className()) ?>
 
 <div>
     <button type="submit" class="btn btn-primary">Регистрация</button>
