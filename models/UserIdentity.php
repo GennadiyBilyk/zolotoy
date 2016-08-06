@@ -19,8 +19,6 @@ class UserIdentity extends User implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-
-
         return static::findOne(['access_token' => $token]);
     }
 
@@ -67,7 +65,7 @@ class UserIdentity extends User implements \yii\web\IdentityInterface
 
     public function validateEmail()
     {
-       // var_dumP($this->email_confirm);exit;
+        // var_dumP($this->email_confirm);exit;
         return $this->email_confirm === '1';
     }
 }

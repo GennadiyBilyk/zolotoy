@@ -55,12 +55,9 @@ class Signup extends Model
      */
     private function sendConfirm(ConfirmInterface $confirm)
     {
-
-
         $text = $this->makeLetter();
         $email = $this->email;
         $confirm->send($email, $text);
-
     }
 
     public function attributeLabels()
@@ -68,7 +65,7 @@ class Signup extends Model
         return [
             'name' => 'Имя',
             'email' => 'Email',
-            'password'=>'Пароль',
+            'password' => 'Пароль',
             'captcha' => 'Введите текст с картинки'];
     }
 
@@ -79,6 +76,7 @@ class Signup extends Model
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->name = $this->name;
+        $user->role_id = 2;
         $user->confirm_code = $this->confirm_code;
 
         if ($user->save()) {
@@ -87,11 +85,6 @@ class Signup extends Model
         } else {
             return false;
         }
-
-
-//        $user->save();
-//        var_dumP($user->getErrors());exit;
-
 
     }
 }

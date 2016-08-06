@@ -5,9 +5,7 @@ namespace app\controllers;
 use app\models\Letter;
 use app\models\Signup;
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\User;
@@ -109,42 +107,13 @@ class SiteController extends Controller
         if (User::confirm($code)) {
             \Yii::$app->getSession()->setFlash('message', 'Ура! Вы подтвердили email и можете <a href="/site/login">войти.</a>');
             return $this->redirect('/site/info');
-        }else{
+        } else {
             \Yii::$app->getSession()->setFlash('error', 'Что-то пошло не так. Возможно есть ошибки в ссылке, или email уже подтвержден.');
             return $this->redirect('/site/info');
         }
 
     }
 
-//    /**
-//     * @inheritdoc
-//     */
-//    public function behaviors()
-//    {
-//        return [
-//            'access' => [
-//                'class' => AccessControl::className(),
-//                'only' => ['logout'],
-//                'rules' => [
-//                    [
-//                        'actions' => ['logout'],
-//                        'allow' => true,
-//                        'roles' => ['@'],
-//                    ],
-//                ],
-//            ],
-//            'verbs' => [
-//                'class' => VerbFilter::className(),
-//                'actions' => [
-//                    'logout' => ['post'],
-//                ],
-//            ],
-//        ];
-//    }
-//
-//    /**
-//     * @inheritdoc
-//     */
     public function actions()
     {
         return [
@@ -158,33 +127,4 @@ class SiteController extends Controller
         ];
     }
 
-
-//
-//    /**
-//     * Displays contact page.
-//     *
-//     * @return string
-//     */
-//    public function actionContact()
-//    {
-//        $model = new ContactForm();
-//        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-//            Yii::$app->session->setFlash('contactFormSubmitted');
-//
-//            return $this->refresh();
-//        }
-//        return $this->render('contact', [
-//            'model' => $model,
-//        ]);
-//    }
-//
-//    /**
-//     * Displays about page.
-//     *
-//     * @return string
-//     */
-//    public function actionAbout()
-//    {
-//        return $this->render('about');
-//    }
 }

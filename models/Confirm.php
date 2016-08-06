@@ -16,12 +16,22 @@ class Confirm implements ConfirmInterface
 {
 
 
-
-
-    public function send($email,$text)
+    public function send($email, $text)
     {
-
+        $subject = '';
+        $from_email = '';
+        $from_name = '';
         //Отправка ссылки на почту
+
+            Yii::$app->mailer->compose()
+                ->setTo($email)
+                ->setFrom([$from_email => $from_name])
+                ->setSubject($subject)
+                ->setTextBody($text)
+                ->send();
+
+
+
 
     }
 

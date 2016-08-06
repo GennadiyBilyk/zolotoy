@@ -15,10 +15,8 @@ use app\services\confirm\ConfirmInterface;
 class ConfirmDb implements ConfirmInterface
 {
 
-
-    public function send($email,$text)
+    public function send($email, $text)
     {
-
 
         //запись ссылки в бд
         $letter = new Letter();
