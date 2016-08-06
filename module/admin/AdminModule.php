@@ -22,7 +22,7 @@ class AdminModule extends \yii\base\Module
     {
 
         if (Yii::$app->user->isGuest) {
-            return Yii::$app->response->redirect('site/login');
+            return Yii::$app->response->redirect('/site/login');
         }
 
         if (Yii::$app->user->identity->role_id != 1) {

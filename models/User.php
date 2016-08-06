@@ -62,12 +62,13 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'role_id' => 'Role ID',
-            'name' => 'Name',
+            'role_id' => 'Роль',
+            'name' => 'Имя',
             'email' => 'Email',
+            'email_confirm' => 'Подтверждение Email',
+            'confirm_code' => 'Confirm Code',
             'password' => 'Password',
-//            'auth_key' => 'Auth Key',
-//            'access_token' => 'Access Token',
+            'auth_key' => 'Auth Key',
         ];
     }
 

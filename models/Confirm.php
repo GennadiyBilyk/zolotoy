@@ -18,7 +18,7 @@ class Confirm implements ConfirmInterface
 
 
 
-    public function send($confirm_code)
+    public function send($email,$text)
     {
 
         //Отправка ссылки на почту
