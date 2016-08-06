@@ -48,7 +48,7 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['role_id'], 'integer'],
+            [['role_id'], 'integer','required'],
             [['name', 'email', 'password'], 'required'],
             [['name', 'email'], 'string', 'max' => 255],
             [['password'], 'string', 'max' => 40],
