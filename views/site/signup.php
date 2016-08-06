@@ -4,6 +4,8 @@
 
 use \yii\widgets\ActiveForm;
 
+$this->title = 'Регистрация';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php

@@ -31,6 +31,7 @@ class User extends \yii\db\ActiveRecord
 
         if ($user) {
             $user->email_confirm = '1';
+            $user->confirm_code = NULL;
             if ($user->save()) {
                 return true;
             } else {

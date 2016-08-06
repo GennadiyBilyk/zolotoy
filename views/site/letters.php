@@ -1,3 +1,11 @@
+<?php
+
+
+$this->title = 'Лог писем';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+
+
 <table class="table">
 <?php foreach ($letters as $letter) { ?>
 

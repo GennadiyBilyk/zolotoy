@@ -28,9 +28,23 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    private function redirectIfLogin()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+    }
+
+    public function actionInfo()
+    {
+        return $this->render('info');
+    }
 
     public function actionSignup()
     {
+
+        $this->redirectIfLogin();
+
 
         $model = new Signup();
 
@@ -38,7 +52,8 @@ class SiteController extends Controller
             $model->attributes = Yii::$app->request->post('Signup');
             if ($model->validate()) {
                 $model->signup();
-                return $this->goHome();
+                \Yii::$app->getSession()->setFlash('message', 'Вы успешно зарегистрировались! Осталось подтвердить email.');
+                return $this->redirect('/site/info');
             }
         }
 
@@ -55,9 +70,8 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+
+        $this->redirectIfLogin();
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
@@ -92,8 +106,12 @@ class SiteController extends Controller
     public function actionConfirm($code)
     {
 
-        if(User::confirm($code)){
-            echo 'ваша почта подтверждена';
+        if (User::confirm($code)) {
+            \Yii::$app->getSession()->setFlash('message', 'Ура! Вы подтвердили email и можете <a href="/site/login">войти.</a>');
+            return $this->redirect('/site/info');
+        }else{
+            \Yii::$app->getSession()->setFlash('error', 'Что-то пошло не так. Возможно есть ошибки в ссылке, или email уже подтвержден.');
+            return $this->redirect('/site/info');
         }
 
     }
