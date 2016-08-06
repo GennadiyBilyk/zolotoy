@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'role_id',
                 'label' => 'Роль',
                 'content' => function ($data) {
-                    return $data->role->title;
+                    return isset($data->role->title) ? $data->role->title : '';
                 },
                 'filter' => \yii\helpers\ArrayHelper::map(\app\models\Roles::find()->all(), 'id', 'title')
             ],
